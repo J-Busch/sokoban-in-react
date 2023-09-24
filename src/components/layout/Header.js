@@ -1,4 +1,4 @@
-import classes from './Header.css';
+import './Header.css';
 
 import Button from '../UI/Button';
 
@@ -7,18 +7,13 @@ const Header = (props) => {
         console.log('clicked rules');
     }
 
-    const githubClickHandler = () => {
-        window.open(
-            'https://github.com/J-Busch/sokoban-in-react',
-            '_blank'
-          );
-    }
-
     return (
-        <header className={classes.header}>
-            <h1 className={classes.title}>Sokoban In React</h1>
-            <Button onClick={rulesClickHandler}>Rules</Button>
-            <Button onClick={githubClickHandler}>Github</Button>
+        <header className="header">
+            <h1 className="header__title">Sokoban In React</h1>
+            <div>
+                <Button classes="header__button" onClick={rulesClickHandler}>Rules</Button>
+                <a className=" btn header__button" href="https://github.com/J-Busch/sokoban-in-react" target="_blank" rel="noreferrer">Github</a>
+            </div>
         </header>
     );
 }

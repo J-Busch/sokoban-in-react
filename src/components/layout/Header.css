@@ -1,6 +1,14 @@
 .header {
-    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 40px;
+    background-color: lightgray;
+    border-bottom: 1px solid black;
 }
-.title {
+.header__title {
     font-weight: bold;
+}
+.header__button {
+    margin-left: 20px;
 }

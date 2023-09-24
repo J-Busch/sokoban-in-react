@@ -1,13 +1,16 @@
-import classes from './Game.css';
-import GameBoard from './GameBoard/GameBoard';
+import './Game.css';
 
+import GameBoard from './GameBoard/GameBoard';
 import GameHeader from './GameHeader/GameHeader';
+import Card from '../UI/Card';
 
 const Game = (props) => {
     return (
-        <main className={classes.game}>
-            <GameHeader />
-            <GameBoard />
+        <main className="game">
+            <Card classes="game__card">
+                <GameHeader />
+                <GameBoard />
+            </Card>
         </main>
     );
 };

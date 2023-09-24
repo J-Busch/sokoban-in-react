@@ -1,9 +1,11 @@
-//import classes from './LevelItem.css';
+import React from 'react';
 
-const LevelItem = (props) => {
+import './LevelItem.css';
+
+const LevelItem = React.forwardRef((props, ref) => {
     return (
-        <div>Level Item</div>
+        <div ref={ref} className="level_item">{props.children}</div>
     );
-};
+});
 
 export default LevelItem;

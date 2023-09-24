@@ -1,0 +1,5 @@
+.block {
+    width: 100%;
+    padding-top: calc(100% / 12);
+    background-color: lightgray;
+}

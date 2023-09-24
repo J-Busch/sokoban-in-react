@@ -1,4 +1,11 @@
 .game {
-    max-width: 786px;
-    border: 1px solid black;
+    margin: auto;
+    margin-top: 40px;
+    width: 768px;
+}
+.game__card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
 }
