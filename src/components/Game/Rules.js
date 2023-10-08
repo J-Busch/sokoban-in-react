@@ -14,7 +14,7 @@ const Rules = (props) => {
             <ul>
                 <li>You control the player block {<Block classes="player block--rules"></Block>} using the arrow keys <img className="rules__image" src={arrowKeyImg} alt="the arrow keys" /></li>
                 <li>Your goal is to push each of the mover blocks {<Block classes="mover block--rules"></Block>} onto a goal {<Block classes="goal block--rules"></Block>}</li>
-                <li>The wall blocks {<Block classes="wall block--rules"></Block>} are rigid bodies. You can not move through them or push blocks past them</li>
+                <li>The wall blocks {<Block classes="wall block--rules"></Block>} and level edges are rigid bodies. You can not move through them or push blocks past them</li>
                 <li>Be careful not to push your way into state that locks you out of winning. If you do, you can press the <img className="rules__image" src={rKey} alt="the r key" /> key to reset the level</li>
                 <li>Good luck!</li>
             </ul>
