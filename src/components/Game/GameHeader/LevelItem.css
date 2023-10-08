@@ -7,3 +7,7 @@
     align-items: center;
     justify-content: center;
 }
+
+.level_item--glow {
+    border: 1px solid aqua;
+}

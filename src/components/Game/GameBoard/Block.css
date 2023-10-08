@@ -3,3 +3,36 @@
     padding-top: calc(100% / 12);
     background-color: lightgray;
 }
+
+.block--player {
+    background-color: blue;
+}
+.block--wall {
+    background-color: slategray;
+}
+.block--mover {
+    background-color: sandybrown;
+}
+.block--goal {
+    background-color: green;
+}
+
+.block--player-on-goal, .block--mover-on-goal {
+    background-color: green;
+    position: relative;
+}
+
+.block__inner {
+    height: 75%;
+    width: 75%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.block__inner--player-on-goal {
+    background: blue;
+}
+.block__inner--mover-on-goal {
+    background: sandybrown;
+}

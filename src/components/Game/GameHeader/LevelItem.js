@@ -4,7 +4,7 @@ import './LevelItem.css';
 
 const LevelItem = React.forwardRef((props, ref) => {
     return (
-        <div ref={ref} className="level_item">{props.children}</div>
+        <div ref={ref} className={`level_item ${props.classes}`}>{props.children}</div>
     );
 });
 

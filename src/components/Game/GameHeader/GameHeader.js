@@ -1,39 +1,45 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useContext } from 'react';
 
 import './GameHeader.css';
 
 import LevelItem from "./LevelItem";
 import LevelPath from "./LevelPath";
+import GameContext from '../../../store/game-context';
 
 const GameHeader = (props) => {
-    const levelItemRef = useRef();
-    const levelItem2Ref = useRef();
+    const gameCtx = useContext(GameContext);
+    const [paths, setPaths] = useState([]);
 
-    const [x, setX] = useState(0);
-    const [y, setY] = useState(0);
-    const [x2, setX2] = useState(0);
-    const [y2, setY2] = useState(0);
+    let headerItems = [];
+    let itemRefs = useRef([]);
+
+    for (let i = 1; i <= props.totalLevels; i++) {
+        const getRef = (element) => (itemRefs.current.push(element))
+        const glow = i <= gameCtx.gameStatus ? 'level_item--glow' : '';
+        headerItems.push(
+            <LevelItem classes={glow} key={`item_${i}`} ref={getRef}>{i}</LevelItem>
+        );
+    }
 
     useEffect(() => {
-        if (levelItemRef.current) {
-            const x = levelItemRef.current.offsetLeft + levelItemRef.current.offsetWidth;
-            const y = levelItemRef.current.offsetTop + levelItemRef.current.offsetHeight / 2;
-            setX(x);
-            setY(y);
+        let newPaths = [];
+        for (let i = 1; i < gameCtx.gameStatus; i++) {
+            const x = itemRefs.current[i -1].offsetLeft + itemRefs.current[i -1].offsetWidth;
+            const y = itemRefs.current[i -1].offsetTop + itemRefs.current[i -1].offsetHeight / 2;
+            const x2 = itemRefs.current[i].offsetLeft;
+            const y2 = itemRefs.current[i].offsetTop + itemRefs.current[i].offsetHeight / 2;
+
+            newPaths.push(
+                <LevelPath key={`path_${i}`} coords={{start: [x,y], end: [x2,y2]}}></LevelPath>
+            );
         }
-        if (levelItem2Ref.current) {
-            const x2 = levelItem2Ref.current.offsetLeft;
-            const y2= levelItem2Ref.current.offsetTop + levelItem2Ref.current.offsetHeight / 2;
-            setX2(x2);
-            setY2(y2);
-        }
-    }, []);
+        setPaths(newPaths);
+    }, [gameCtx.gameStatus])
 
     return (
         <div className='game_header'>
-            <LevelItem ref={levelItemRef} >1</LevelItem>
-            { levelItemRef.current && <LevelPath coords={{start: [x,y], end: [x2,y2]}}></LevelPath> }
-            <LevelItem ref={levelItem2Ref}>2</LevelItem>
+            { headerItems }
+            { paths }
         </div>
     );
 };
