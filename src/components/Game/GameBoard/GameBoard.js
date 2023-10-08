@@ -1,7 +1,7 @@
-import { useContext, useEffect, useReducer } from 'react';
+import { useState, useContext, useEffect, useReducer } from 'react';
 
 import './GameBoard.css';
-import { types } from '../../../data/game-boards';
+import { types, blankBoard } from '../../../data/game-boards';
 import gameBoardReducer from './gameBoardReducer';
 
 import Block from './Block';
@@ -17,14 +17,22 @@ const defaultGameState = {
 
 const GameBoard = (props) => {
     const gameCtx = useContext(GameContext);
+    const [levelComplete, setLevelComplete] = useState(false);
     const [game, dispatchGameAction] = useReducer(
         gameBoardReducer,
         defaultGameState
     );
 
+    let { grid, movers, goals } = game;
+    movers = JSON.parse(JSON.stringify(movers));
+    goals = JSON.parse(JSON.stringify(goals));
+    grid = JSON.parse(JSON.stringify(grid));
+    
+
     useEffect(() => {
         const setup = (grid) => {
-            const setup = defaultGameState;
+            let setup = defaultGameState;
+            setup = JSON.parse(JSON.stringify(defaultGameState));
         
             for (let i = 0; i < grid.length; i++) {
                 for (let j = 0; j < grid[i].length; j++) {
@@ -37,14 +45,23 @@ const GameBoard = (props) => {
                     if (grid[i][j] === "G") {
                         setup.goals.push([i, j]);
                     }
+                    if (grid[i][j] === "MG") {
+                        setup.movers.push([i, j]);
+                        setup.goals.push([i, j]);
+                    }
+                    if (grid[i][j] === "PG") {
+                        setup.player = [i, j];
+                        setup.goals.push([i, j]);
+                    }
                 }
             }
         
             return setup;
         };
 
-        const initalGrid = JSON.parse(JSON.stringify(props.data[gameCtx.gameStatus - 1]));
-        const initalSetup = setup(initalGrid);
+        const initalGrid = props.data[gameCtx.gameStatus - 1];
+        let initalSetup = setup(initalGrid);
+        //console.log(initalGrid, initalSetup);
         dispatchGameAction({
             type: 'SETUP',
             grid: initalGrid,
@@ -77,30 +94,43 @@ const GameBoard = (props) => {
 
     useEffect(() => {
         let count = 0;
-        game.movers.forEach(mover => {
-            game.goals.forEach(goal => {
-                if (mover[0] === goal[0] && mover[1] === goal[1]) {
-                    count++;
-                }
+        if (levelComplete === false) {
+            movers.forEach(mover => {
+                goals.forEach(goal => {
+                    if (mover[0] === goal[0] && mover[1] === goal[1]) {
+                        count++;
+                    }
+                });
             });
-        });
-        if (count === game.goals.length) {
-            console.log('LEVEL COMPLETE');
         }
-    }, [game]);
+        if (count === goals.length && count !== 0) {
+            setLevelComplete(true);
+            gameCtx.handleStatusUpdate();
 
-    const blocks = game.grid.map((row, i) => {
-        const newRow = row.map((key, j) => {
-            return (
-                <Block classes={types[key]} coords={[i, j]} key={`${i}_${j}`} />
-            );
+            setTimeout(() => {
+                setLevelComplete(false);
+            }, "1500");
+        }
+    }, [movers, goals, gameCtx, levelComplete]);
+
+    const renderBoard = (board) => {
+        return board.map((row, i) => {
+            const newRow = row.map((key, j) => {
+                return (
+                    <Block classes={types[key]} coords={[i, j]} key={`${i}_${j}`} />
+                );
+            });
+            return <Row key={`row_${i}`}>{newRow}</Row>;
         });
-        return <Row key={`row_${i}`}>{newRow}</Row>;
-    });
+    }
+
+    const blocks = renderBoard(grid);
+    const blank = renderBoard(blankBoard);
 
     return (
         <section className='game_board'>
-            {blocks}
+            { levelComplete && <div className="game_board__level-complete">Level Complete!</div> }
+            { !levelComplete  ? blocks : blank }
         </section>
     );
 };

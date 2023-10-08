@@ -1,3 +1,17 @@
 .game_board {
     width: 100%;
+    position: relative;
+}
+.game_board__level-complete {
+    position: absolute;
+    width: 100%;
+    padding-bottom: 10px;
+    font-size: 3rem;
+    color: white;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1000;
 }

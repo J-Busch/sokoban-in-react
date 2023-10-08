@@ -4,6 +4,13 @@
     background-color: lightgray;
 }
 
+.block--rules {
+    width: 2dvh;
+    height: 20px;
+    padding: 0;
+    display: inline-block;
+}
+
 .block--player {
     background-color: blue;
 }
