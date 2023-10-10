@@ -71,6 +71,7 @@ const GameBoard = (props) => {
         });
 
         const handleKeyDown = (event) => {
+            event.preventDefault();
             if (event.key === 'r') {
                 dispatchGameAction({
                     type: 'SETUP',
